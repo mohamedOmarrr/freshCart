@@ -1,0 +1,193 @@
+<nav
+  [class.fixed]="isScrolled()"
+  class="transition-all duration-300 w-full shadow-md top-0 left-0 z-50 bg-lettuce mb-5"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center text-2xl font-bold w-fit">
+        <img
+          src="./images/cartlogo.svg"
+          alt="Cart logo"
+          class="w-[35px] me-1"
+        />
+        <h1
+          class="font-goudy text-transparent bg-clip-text text-[30px] bg-gradient-to-r from-mud to-[#5d6146]"
+        >
+          FreshCart
+        </h1>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div
+        class="hidden navbreak:flex items-center justify-between w-10/12 gap-4 min-w-0"
+      >
+        <!-- الروابط -->
+        <div class="main-links flex gap-2 flex-wrap min-w-0">
+          <a routerLink="/home" routerLinkActive="active-link" class="nav-link"
+            >Home</a
+          >
+          <a
+            routerLink="/products"
+            routerLinkActive="active-link"
+            class="nav-link"
+            >Products</a
+          >
+          <a
+            routerLink="/category"
+            routerLinkActive="active-link"
+            class="nav-link"
+            >Categories</a
+          >
+          <a routerLink="/brand" routerLinkActive="active-link" class="nav-link"
+            >Brands</a
+          >
+        </div>
+
+        <!-- Follow Us Dropdown -->
+        <div class="relative flex gap-4 items-center">
+          <p-tieredMenu [model]="items" class="custom-menu"></p-tieredMenu>
+
+          <!-- Auth Buttons -->
+          <div class="logs flex gap-2 flex-shrink-0">
+            @if (!isLoggedIn()) {
+            <h3
+              class="cursor-pointer bg-clay font-goudy border-[#5d6146] border-[1px] rounded-md h-fit py-1 px-3 shadow-lg text-white font-bold"
+              routerLink="/sign"
+              routerLinkActive="active-link"
+            >
+              SignUp
+            </h3>
+            <h3
+              class="cursor-pointer bg-clay font-goudy border-[#5d6146] border-[1px] rounded-md h-fit py-1 px-3 shadow-lg text-white font-bold"
+              routerLink="/log"
+              routerLinkActive="active-link"
+            >
+              LogIn
+            </h3>
+            } @if (isLoggedIn()) {
+
+            <div class="flex items-center">
+              @if(cartCount() !== 0){
+
+              <h3 class="me-3">
+                <a
+                  routerLink="/cart"
+                  routerLinkActive="active-cart"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="cart-link relative"
+                >
+                  <p-badge
+                    class="absolute top-[-10px] right-[-4px] custom-badge"
+                    [value]="cartCount()"
+                  ></p-badge>
+                  <i class="fas fa-cart-shopping text-[25px]"></i>
+                </a>
+              </h3>
+              }
+              <h3
+                (click)="logOut()"
+                class="cursor-pointer bg-clay font-goudy border-[#5d6146] border-[1px] rounded-md h-fit py-1 px-3 shadow-lg text-white font-bold flex items-center gap-2"
+              >
+                <i class="fa-solid fa-right-from-bracket text-white"></i>
+                LogOut
+              </h3>
+            </div>
+
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Toggle -->
+      <div class="navbreak:hidden flex items-center">
+        <button
+          (click)="toggleMenu()"
+          class="text-gray-700 hover:text-green-600 focus:outline-none"
+        >
+          <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div
+    class="navbreak:hidden px-4 flex flex-col pt-2 pb-4 space-y-4 transition-all duration-300 origin-top"
+    [class.hidden]="!mobileMenuOpen"
+  >
+    <!-- الروابط -->
+    <a routerLink="/home" class="block nav-link" routerLinkActive="active-link"
+      >Home</a
+    >
+    <a
+      routerLink="/products"
+      class="block nav-link"
+      routerLinkActive="active-link"
+      >Products</a
+    >
+    <a
+      routerLink="/category"
+      class="block nav-link"
+      routerLinkActive="active-link"
+      >Categories</a
+    >
+    <a routerLink="/brand" class="block nav-link" routerLinkActive="active-link"
+      >Brands</a
+    >
+
+    <!-- Follow Us (PrimeNG Menu) -->
+    <div class="pt-2 border-t border-gray-300">
+      <p-tieredMenu [model]="items"></p-tieredMenu>
+    </div>
+
+    <!-- Auth Buttons -->
+    <div class="pt-4 border-t border-gray-300 flex gap-2">
+      @if (!isLoggedIn()) {
+      <h3
+        class="cursor-pointer bg-clay font-goudy border-[#5d6146] border-[1px] rounded-md h-fit py-1 px-3 shadow-lg text-white font-bold"
+        routerLink="/sign"
+        routerLinkActive="active-link"
+      >
+        SignUp
+      </h3>
+      <h3
+        class="cursor-pointer bg-clay font-goudy border-[#5d6146] border-[1px] rounded-md h-fit py-1 px-3 shadow-lg text-white font-bold"
+        routerLink="/log"
+        routerLinkActive="active-link"
+      >
+        LogIn
+      </h3>
+      } @if (isLoggedIn()) {
+
+      <div class="flex items-center">
+        @if(cartCount() !== 0){
+
+        <h3 class="me-3">
+          <a
+            routerLink="/cart"
+            routerLinkActive="active-cart"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="cart-link relative"
+          >
+            <p-badge
+              class="absolute top-[-10px] right-[-4px] custom-badge"
+              [value]="cartCount()"
+            ></p-badge>
+            <i class="fas fa-cart-shopping text-[25px]"></i>
+          </a>
+        </h3>
+        }
+
+        <h3
+          (click)="logOut()"
+          class="cursor-pointer bg-clay font-goudy border-[#5d6146] border-[1px] rounded-md h-fit py-1 px-3 shadow-lg text-white font-bold flex items-center gap-2"
+        >
+          <i class="fa-solid fa-right-from-bracket text-white"></i>
+          LogOut
+        </h3>
+      </div>
+      }
+    </div>
+  </div>
+</nav>

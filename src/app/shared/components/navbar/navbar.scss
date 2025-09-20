@@ -1,0 +1,57 @@
+.nav-link {
+  @apply relative inline-block text-[#adb199] px-2 py-1 font-bold transition-colors duration-300;
+
+  &:hover {
+    @apply text-mud;
+  }
+
+  &::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-[3px] w-0 transition-all duration-500;
+    background-image: linear-gradient(to left, #323226, #535340);
+  }
+
+  &:hover::after {
+    @apply w-full;
+  }
+
+  &.active-link {
+    @apply text-mud;
+  }
+
+  &.active-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-[3px] w-full;
+    background-image: linear-gradient(to left, #323226, #535340);
+    transition: none; // يخلي الخط ثابت
+  }
+}
+
+.cart-link {
+  @apply relative inline-block text-[#adb199] px-2 py-1 font-bold transition-colors duration-300;
+
+  &:hover i,
+  &.active-cart i {
+    @apply text-[#626652];
+  }
+
+ 
+  &::after {
+    content: none;
+  }
+}
+
+
+
+::ng-deep .custom-menu .p-tieredmenu {
+  min-width: 120px !important; 
+  width: 125px !important;
+}
+
+
+:host ::ng-deep .custom-badge {
+  background-color: white;
+  color: #323226;
+  border: 2px solid #adb199;
+  
+}

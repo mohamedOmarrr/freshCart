@@ -1,0 +1,123 @@
+<section>
+  <div class="container mx-auto p-6 grid md:grid-cols-3 gap-8 md:items-start">
+    <div class="md:col-span-2 space-y-6">
+      @if (cartItems().length === 0) {
+      <div class="flex items-center justify-center min-h-[50vh] space-x-2">
+        <span class="text-mud font-bold text-xl">Loading Your Cart</span>
+        <p-progress-spinner
+          strokeWidth="8"
+          fill="transparent"
+          animationDuration=".5s"
+          [style]="{ width: '32px', height: '32px' }"
+        />
+      </div>
+
+      } @else { @for (item of cartItems(); track item.product._id) {
+      <div class="flex items-center justify-between border-b pb-4">
+        <div class="flex items-center">
+          <img
+            [src]="item.product.imageCover"
+            [alt]="item.product.title"
+            class="w-20 h-20 object-cover rounded"
+          />
+
+          <div
+            class="flex flex-col justify-around gap-2 items-start px-2 text-mud"
+          >
+            <h3
+              class="font-bold text-[18px] text-mud font-goudy w-[170px] truncate"
+            >
+              {{ item.product.title }}
+            </h3>
+
+            <p class="text-mud">
+              instock:
+              <span
+                class="border rounded-md border-mud p-1 ms-1 text-green-600 font-medium"
+              >
+                {{ item.product.quantity }}
+              </span>
+            </p>
+
+            <button
+              class="text-red-500 text-sm"
+              (click)="removeItem(item.product._id)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+
+        <p-inputnumber
+          [(ngModel)]="item.count"
+          [showButtons]="true"
+          [min]="1"
+          [max]="item.product.quantity"
+          [inputStyle]="{ width: '3rem', textAlign: 'center' }"
+          buttonLayout="vertical"
+          spinnerMode="vertical"
+          (ngModelChange)="updateQuantity(item, $event)"
+        >
+          <ng-template #incrementbuttonicon>
+            <span class="pi pi-plus"></span>
+          </ng-template>
+          <ng-template #decrementbuttonicon>
+            <span class="pi pi-minus"></span>
+          </ng-template>
+        </p-inputnumber>
+
+        <span
+          class="font-medium w-16 text-right inline-block text-mud text-[20px]"
+        >
+          {{ item.product.price * item.count }}
+          <span class="text-clay">EGP</span>
+        </span>
+      </div>
+      } }
+    </div>
+
+    <!-- Summary -->
+    <div
+      class="bg-[rgba(203,218,173,0.4)] p-6 rounded-xl space-y-4 md:w-auto md:inline-block"
+    >
+      <h2 class="text-xl font-bold text-mud">Summary</h2>
+
+      <div class="flex justify-between">
+        <span>Subtotal</span>
+        <div class="flex gap-1">
+          <span>{{ subtotal }}</span
+          ><span class="text-clay">EGP</span>
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <span>Shipping</span>
+        <div class="flex gap-1">
+          <span>{{ shipping }}</span
+          ><span class="text-clay">EGP</span>
+        </div>
+      </div>
+
+      <div class="flex justify-between font-bold text-lg">
+        <span>Total</span>
+        <div class="flex gap-1 text-mud">
+          <span>{{ total }}</span
+          ><span class="text-clay">EGP</span>
+        </div>
+      </div>
+
+      <input
+        type="text"
+        placeholder="Enter coupon code"
+        class="w-full border p-2 rounded"
+      />
+
+      <button
+        (click)="goCheck()"
+        class="w-full bg-[#5d6146] hover:bg-[#50543c] active:scale-[101%] text-white font-bold py-2 rounded"
+      >
+        proceed to Check Out
+      </button>
+    </div>
+  </div>
+</section>

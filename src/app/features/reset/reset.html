@@ -1,0 +1,239 @@
+<section class="flex items-center justify-center my-8 py-5 max-w-[95%] m-auto">
+  @if(level() === 'email') {
+  <form
+    [formGroup]="emailForm"
+    (ngSubmit)="submitEmail()"
+    class="w-full max-w-md p-6 py-8 shadow-md rounded-lg space-y-4 my-8 bg-[rgba(203,218,173,0.6)]"
+  >
+    <h2 class="text-[25px] font-semibold font-goudy text-clay">
+      Forgot Password?
+    </h2>
+
+    <p-floatlabel variant="on" class="block mb-4">
+      <input
+        pInputText
+        id="email"
+        type="email"
+        formControlName="email"
+        class="w-full border rounded px-3 py-2"
+        autocomplete="new-password"
+      />
+      <label for="email">Enter your Email</label>
+    </p-floatlabel>
+    @if(emailForm.get('email')?.touched && emailForm.get('email')?.invalid){
+    <p-message severity="error"
+      >Enter a valid email, must end with @gmail.com</p-message
+    >
+    }
+
+    <button
+      type="submit"
+      [disabled]="loading()"
+      class="w-full font-bold px-4 py-2 font-goudy text-[18px] rounded-lg text-white border-[2px] border-clay bg-[#64684f] hover:bg-[#5d6146] active:scale-[101%] disabled:opacity-50"
+    >
+      @if(loading()) {
+      <div class="flex items-center justify-center">
+        <h1>Loading</h1>
+        <p-progress-spinner
+          strokeWidth="8"
+          fill="transparent"
+          animationDuration=".5s"
+          [style]="{ width: '20px', height: '20px' }"
+        />
+      </div>
+      } @else { Send Code }
+    </button>
+  </form>
+  }
+
+  <!-- ================= Code Form ================= -->
+  @if(level() === 'code') {
+  <form
+    (ngSubmit)="submitCode($event)"
+    [formGroup]="codeForm"
+    class="w-full max-w-md p-6 shadow-md rounded-lg space-y-4 my-5 bg-[rgba(203,218,173,0.6)]"
+  >
+    <h2 class="text-xl font-semibold font-goudy text-mud">Verify Code</h2>
+
+    <div class="flex w-[100%] justify-between space-x-2">
+      <input
+        #d1
+        (input)="nextMove($event, d2)"
+        type="text"
+        maxlength="1"
+        formControlName="d1"
+        class="w-12 h-12 text-center border rounded-lg focus:ring-2 focus:ring-gray-600 focus:border-green-400"
+      />
+      <input
+        #d2
+        (input)="nextMove($event, d3)"
+        (keydown)="prevMove($event, d1)"
+        type="text"
+        maxlength="1"
+        formControlName="d2"
+        class="w-12 h-12 text-center border rounded-lg focus:ring-2 focus:ring-gray-600 focus:border-green-400"
+      />
+      <input
+        #d3
+        (input)="nextMove($event, d4)"
+        (keydown)="prevMove($event, d2)"
+        type="text"
+        maxlength="1"
+        formControlName="d3"
+        class="w-12 h-12 text-center border rounded-lg focus:ring-2 focus:ring-gray-600 focus:border-green-400"
+      />
+      <input
+        #d4
+        (input)="nextMove($event, d5)"
+        (keydown)="prevMove($event, d3)"
+        type="text"
+        maxlength="1"
+        formControlName="d4"
+        class="w-12 h-12 text-center border rounded-lg focus:ring-2 focus:ring-gray-600 focus:border-green-400"
+      />
+      <input
+        #d5
+        (input)="nextMove($event, d6)"
+        (keydown)="prevMove($event, d4)"
+        type="text"
+        maxlength="1"
+        formControlName="d5"
+        class="w-12 h-12 text-center border rounded-lg focus:ring-2 focus:ring-gray-600 focus:border-green-400"
+      />
+      <input
+        #d6
+        (keydown)="prevMove($event, d5)"
+        type="text"
+        maxlength="1"
+        formControlName="d6"
+        class="w-12 h-12 text-center border rounded-lg focus:ring-2 focus:ring-gray-600 focus:border-green-400"
+      />
+    </div>
+
+    @if(codeForm.touched && codeForm.invalid) {
+    <p class="text-sm text-red-400 font-bold">All 6 digits are required</p>
+    }
+
+    <div class="flex justify-between">
+      <button
+        type="button"
+        (click)="goBack()"
+        class="px-4 py-2 text-white font-bold rounded-lg border border-gray-300 hover:bg-[#5d6146] active:scale-[100.4%] bg-clay"
+      >
+        Back
+      </button>
+      <button
+        type="submit"
+        [disabled]="loading()"
+        class="px-4 py-2 font-bold rounded-lg text-white bg-[#64684f] hover:bg-[#5d6146] active:scale-[100.4%] disabled:opacity-50"
+      >
+        @if(loading()) {
+        <div class="flex items-center justify-center">
+          <h1>Loading</h1>
+          <p-progress-spinner
+            strokeWidth="8"
+            fill="transparent"
+            animationDuration=".5s"
+            [style]="{ width: '20px', height: '20px' }"
+          />
+        </div>
+        } @else { Verify Code }
+      </button>
+    </div>
+  </form>
+  }
+
+  <!-- ================= Reset Password Form ================= -->
+  <!-- HTML -->
+  @if(level() === 'repass') {
+  <form
+    (ngSubmit)="submitRepass($event)"
+    [formGroup]="repassForm"
+    class="w-full max-w-md p-6 shadow-md rounded-lg space-y-4 my-5 bg-[rgba(203,218,173,0.6)]"
+  >
+    <h2 class="font-goudy font-semibold text-clay text-[25px]">
+      Reset Password
+    </h2>
+
+    <!-- Email -->
+
+    <p-floatlabel variant="on" class="block mb-4">
+      <input
+        pInputText
+        id="email"
+        type="email"
+        formControlName="email"
+        class="w-full border rounded px-3 py-2"
+        autocomplete="off"
+      />
+      <label for="email">Email</label>
+    </p-floatlabel>
+    @if(repassForm.get('email')?.touched && repassForm.get('email')?.invalid){
+    <p-message severity="error"
+      >Enter a valid email, must end with @gmail.com</p-message
+    >
+    }
+
+    <!-- Password -->
+    <p-floatlabel variant="on" class="block mb-4 relative">
+      <input
+        pInputText
+        id="rePassword"
+        [type]="type"
+        formControlName="newPassword"
+        class="w-full border rounded px-3 py-2 pr-10"
+        autocomplete="off"
+      />
+      <label for="password">Set Password</label>
+
+      @if(type === 'password'){
+      <i
+        class="fas fa-eye absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+        (click)="type = 'text'"
+        (mousedown)="$event.preventDefault()"
+      ></i>
+      } @else {
+      <i
+        class="fas fa-eye-slash absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+        (click)="type = 'password'"
+        (mousedown)="$event.preventDefault()"
+      ></i>
+      }
+    </p-floatlabel>
+    @if(repassForm.get('newPassword')?.touched &&
+    repassForm.get('newPassword')?.invalid){
+    <p-message severity="error"
+      >Password must be at least 6 chars & contains nums & letters</p-message
+    >
+    }
+
+    <!-- Buttons -->
+    <div class="flex justify-between">
+      <button
+        type="button"
+        (click)="goBack()"
+        class="px-4 py-2 text-white font-bold rounded-lg border border-gray-300 hover:bg-[#5d6146] active:scale-[100.4%] bg-clay"
+      >
+        Back
+      </button>
+      <button
+        type="submit"
+        [disabled]="loading()"
+        class="px-4 py-2 font-bold rounded-lg text-white bg-[#64684f] hover:bg-[#5d6146] active:scale-[100.4%] disabled:opacity-50"
+      >
+        @if(loading()) {
+        <div class="flex items-center justify-center">
+          <h1>Loading</h1>
+          <p-progress-spinner
+            strokeWidth="8"
+            fill="transparent"
+            animationDuration=".5s"
+            [style]="{ width: '20px', height: '20px' }"
+          />
+        </div>
+        } @else { Verify Code }
+      </button>
+    </div>
+  </form>
+  }
+</section>

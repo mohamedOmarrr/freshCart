@@ -1,0 +1,51 @@
+<section>
+  <div class="container w-[85%] mx-auto">
+    <div class="cards grid gap-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
+      @for (product of products(); track $index) {
+      <div
+        (click)="gitId($event, product.id)"
+        class="card group border-2 rounded-2xl shadow-md bg-[rgba(203,218,173,0.4)] text-mud hover:shadow-lg transition"
+      >
+        <!-- Image -->
+        <div class="relative img-zone overflow-hidden">
+          <img
+            class="w-full h-48 object-cover rounded-t-2xl"
+            [src]="product.image"
+            alt="{{ product.title }}"
+          />
+          <button
+            (click)="addToCart(product.id)"
+            class="absolute bottom-[-45px] transition-[bottom] duration-300 group-hover:bottom-[10px] w-[90%] right-2 bg-[#5d6146] border-2 text-white px-4 py-2 rounded-full shadow active:scale-[101%] overflow-hidden text-ellipsis whitespace-nowrap"
+          >
+            <i class="fas fa-cart-plus me-2"></i>Add to Cart
+          </button>
+        </div>
+
+        <!-- Info -->
+        <div class="info-zone p-4">
+          <h3 class="text-[12px] font-semibold mb-0 uppercase text-green-700">
+            {{ product.categoryName }}
+          </h3>
+          <h1
+            class="mb-3 text-lg font-bold text-[#5d6146] overflow-hidden text-ellipsis whitespace-nowrap"
+          >
+            {{ product.title }}
+          </h1>
+
+          <div class="flex justify-between items-center">
+            <h5 class="font-normal">
+              {{ product.price }}
+              <span class="text-sm font-bold text-clay">EGP</span>
+            </h5>
+            <h5 class="flex items-center">
+              <i class="fas fa-star text-[12px] text-yellow-600 me-1"></i>
+              {{ product.rate }}
+            </h5>
+          </div>
+        </div>
+      </div>
+
+      }
+    </div>
+  </div>
+</section>

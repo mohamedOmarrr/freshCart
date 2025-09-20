@@ -1,0 +1,18 @@
+<h1 class="p-5 text-[40px] text-mud font-bold font-goudy">
+  Results for {{ categoryName }}
+</h1>
+
+<div class="max-w-[90%] m-auto">
+  @if (!specificProducts() || specificProducts().length === 0) {
+  <div class="flex justify-center">
+    <p-progress-spinner
+      strokeWidth="8"
+      fill="transparent"
+      animationDuration=".5s"
+      [style]="{ width: '40px', height: '40px' }"
+    />
+  </div>
+  } @else {
+  <app-cards [products]="specificProducts()"> </app-cards>
+  }
+</div>

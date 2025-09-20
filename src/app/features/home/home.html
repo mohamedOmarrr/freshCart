@@ -1,0 +1,56 @@
+<section
+  class="max-w-7xl mx-auto mt-6 px-4 grid grid-cols-1 md:grid-cols-12 gap-4 mb-8"
+>
+  <div class="md:col-span-8">
+    <p-carousel
+      class="h-full"
+      [value]="largeImages"
+      [numVisible]="1"
+      [numScroll]="1"
+      [circular]="true"
+      [showIndicators]="false"
+      [showNavigators]="false"
+      [autoplayInterval]="3000"
+    >
+      <ng-template pTemplate="item" let-img>
+        <div class="aspect-[16/9] w-full">
+          <img [src]="img" class="w-full h-full object-cover rounded-lg" />
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+  <div class="md:col-span-4 flex flex-col gap-4 md:h-full">
+    <div class="flex-1">
+      <img
+        [src]="smallImages[0]"
+        class="w-full h-full object-cover rounded-lg"
+      />
+    </div>
+    <div class="flex-1">
+      <img
+        [src]="smallImages[1]"
+        class="w-full h-full object-cover rounded-lg"
+      />
+    </div>
+  </div>
+</section>
+
+<app-category [categories]="categories()"></app-category>
+
+<h1
+  class="font-goudy text-4xl md:text-5xl font-extrabold text-mud text-center mt-16 mb-10"
+>
+  Explore Our Products
+</h1>
+
+<app-cards [products]="products()"></app-cards>
+
+<div class="flex justify-center mt-10 mb-6">
+  <p-paginator
+    [rows]="40"
+    [totalRecords]="totalRecords"
+    (onPageChange)="loadPage($event.page! + 1)"
+  >
+  </p-paginator>
+</div>

@@ -1,0 +1,78 @@
+<section class="flex items-center justify-center my-5 max-w-[95%] m-auto">
+  <form
+    [formGroup]="shippingForm"
+    (ngSubmit)="submit()"
+    class="w-full max-w-md p-6 shadow-md rounded-lg space-y-4 my-5 bg-[rgba(203,218,173,0.6)]"
+  >
+    <div formGroupName="shippingAddress" class="space-y-4">
+      <!-- Details -->
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          id="details"
+          type="text"
+          formControlName="details"
+          class="w-full border rounded px-3 py-2"
+        />
+        <label for="details">Address Details</label>
+      </p-floatlabel>
+      @if (shippingForm.get('shippingAddress.details')?.touched &&
+      shippingForm.get('shippingAddress.details')?.invalid) {
+      <p-message severity="error">Details are required</p-message>
+      }
+
+      <!-- Phone -->
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          id="phone"
+          type="tel"
+          formControlName="phone"
+          class="w-full border rounded px-3 py-2"
+        />
+        <label for="phone">Phone</label>
+      </p-floatlabel>
+      @if (shippingForm.get('shippingAddress.phone')?.touched &&
+      shippingForm.get('shippingAddress.phone')?.invalid) {
+      <p-message class="text-sm font-normal" severity="error"
+        >Enter valid Egyptian phone (01…)</p-message
+      >
+      }
+
+      <!-- City -->
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          id="city"
+          type="text"
+          formControlName="city"
+          class="w-full border rounded px-3 py-2"
+        />
+        <label for="city">City</label>
+      </p-floatlabel>
+      @if (shippingForm.get('shippingAddress.city')?.touched &&
+      shippingForm.get('shippingAddress.city')?.invalid) {
+      <p-message severity="error">City is required</p-message>
+      }
+    </div>
+
+    <!-- Submit -->
+    <button
+      type="submit"
+      [disabled]="loading"
+      class="w-full font-bold px-4 py-2 text-[18px] rounded-lg text-white border-[2px] border-clay bg-[#64684f] hover:bg-[#5d6146] active:scale-[101%] disabled:opacity-50"
+    >
+      @if (loading) {
+      <div class="flex items-center justify-center">
+        <h1>Saving…</h1>
+        <p-progress-spinner
+          strokeWidth="8"
+          fill="transparent"
+          animationDuration=".5s"
+          [style]="{ width: '20px', height: '20px' }"
+        />
+      </div>
+      } @else { Save Address }
+    </button>
+  </form>
+</section>

@@ -1,0 +1,21 @@
+@for(order of orders(); track order._id) {
+<div class="order-card p-4 mb-4 shadow rounded bg-white">
+  <h2>Order ID: {{ order._id }}</h2>
+  <p>Total: {{ order.totalOrderPrice }} EGP</p>
+  @if(order.isPaid) {
+  <p>Status: Paid</p>
+  } @else {
+  <p>Status: Pending</p>
+  }
+  <p>City: {{ order.shippingAddress.city }}</p>
+
+  @for(item of order.cartItems; track item._id) {
+  <div class="cart-item pl-4 border-l border-gray-300 my-2">
+    <p>
+      {{ item.product.title }} - Quantity: {{ item.count }} - Price:
+      {{ item.price }}
+    </p>
+  </div>
+  }
+</div>
+}

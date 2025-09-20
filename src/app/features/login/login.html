@@ -1,0 +1,85 @@
+<section class="flex items-center justify-center my-7 max-w-[95%] m-auto">
+  <form
+    [formGroup]="loginForm"
+    (ngSubmit)="submit()"
+    class="w-full max-w-md p-6 shadow-md rounded-lg space-y-4 my-6 bg-[rgba(203,218,173,0.6)]"
+  >
+    <h1 class="text-clay font-goudy text-[25px]">Register Now</h1>
+
+    <p-floatlabel variant="on" class="block mb-4">
+      <input
+        pInputText
+        id="email"
+        type="email"
+        formControlName="email"
+        class="w-full border rounded px-3 py-2"
+        autocomplete="new-password"
+      />
+      <label for="email">Email</label>
+    </p-floatlabel>
+    @if(loginForm.get('email')?.touched && loginForm.get('email')?.invalid){
+    <p-message severity="error"
+      >Enter a valid email, must end with @gmail.com</p-message
+    >
+    }
+
+    <!-- Password -->
+    <p-floatlabel variant="on" class="block mb-4 relative">
+      <input
+        pInputText
+        id="password"
+        [type]="type"
+        formControlName="password"
+        class="w-full border rounded px-3 py-2 pr-10"
+        autocomplete="new-password"
+      />
+      <label for="password">Password</label>
+
+      @if(type === 'password'){
+      <i
+        class="fas fa-eye absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+        (click)="type = 'text'"
+        (mousedown)="$event.preventDefault()"
+      ></i>
+      } @else {
+      <i
+        class="fas fa-eye-slash absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+        (click)="type = 'password'"
+        (mousedown)="$event.preventDefault()"
+      ></i>
+      }
+    </p-floatlabel>
+    @if(loginForm.get('password')?.touched &&
+    loginForm.get('password')?.invalid){
+    <p-message severity="error"
+      >Password must be at least 6 chars & contains nums & letters</p-message
+    >
+    }
+
+    <button
+      type="submit"
+      [disabled]="loading()"
+      class="w-full font-bold px-4 py-2 font-goudy text-[18px] rounded-lg text-white border-[2px] border-clay bg-[#64684f] hover:bg-[#5d6146] active:scale-[101%] disabled:opacity-50"
+    >
+      @if(loading()) {
+      <div class="flex items-center justify-center">
+        <h1>Loading</h1>
+        <p-progress-spinner
+          strokeWidth="8"
+          fill="transparent"
+          animationDuration=".5s"
+          [style]="{ width: '20px', height: '20px' }"
+        />
+      </div>
+      } @else { Login }
+    </button>
+
+    <div class="text-right">
+      <a
+        routerLink="/reset"
+        class="text-sm font-bold text-[#5a5a43] hover:underline"
+        >Forgot password?</a
+      >
+    </div>
+  </form>
+</section>

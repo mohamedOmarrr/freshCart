@@ -1,0 +1,89 @@
+<section class="py-8">
+  @if (Product(); as p) {
+  <div class="container grid grid-cols-1 md:grid-cols-12 gap-6 w-[85%] mx-auto">
+    <div class="md:col-span-4">
+      <p-carousel
+        [value]="p.images ?? []"
+        [numVisible]="1"
+        [numScroll]="1"
+        [circular]="true"
+        [autoplayInterval]="3000"
+      >
+        @for (img of p.images; track $index) {
+        <ng-template pTemplate="item">
+          <div
+            class="border border-surface-200 dark:border-surface-700 rounded-xl m-2 p-4"
+          >
+            <img
+              [src]="img || './images/playstation.jpeg'"
+              [alt]="p.title"
+              class="rounded-xl shadow-md"
+            />
+          </div>
+        </ng-template>
+        }
+      </p-carousel>
+    </div>
+
+    <div
+      class="relative md:col-span-8 border rounded-2xl shadow-md bg-[rgba(203,218,173,0.4)] text-mud hover:shadow-lg transition flex flex-col"
+    >
+      <div class="p-6 flex-1">
+        <div class="mb-2">
+          <span class="text-xs uppercase tracking-wider text-gray-500"
+            >Brand:</span
+          >
+          <span class="ml-1 font-semibold text-gray-700">{{ p.brand }}</span>
+        </div>
+
+        <h1 class="text-2xl font-semibold mb-2 font-goudy text-clay">
+          {{ p.title }}
+        </h1>
+
+        <div class="mb-4">
+          <span class="text-sm text-gray-600">In Stock:</span>
+          <span
+            class="ml-1 font-medium text-green-600 bg-gray-50 p-1 border-[1px] border-mud rounded-md"
+          >
+            {{ p.quantity }}
+          </span>
+        </div>
+
+        <p class="text-gray-600 mb-4">
+          {{ p.desc ?? "No description available." }}
+        </p>
+
+        <h5 class="text-sm text-green-600 mb-6">{{ p.categoryName }}</h5>
+
+        <div class="flex justify-between items-center mb-8">
+          <span class="font-medium text-lg text-mud">
+            {{ p.price }}
+            <span class="text-sm font-bold text-clay">EGP</span>
+          </span>
+          <span class="flex items-center text-mud">
+            <i class="fas fa-star text-yellow-500 text-sm mr-1"></i>{{ p.rate }}
+          </span>
+        </div>
+      </div>
+
+      <div class="p-6 pt-0">
+        <button
+          (click)="addToCart(p.id)"
+          class="w-full bg-[#5d6146] border-2 border-[#5d6146] text-white py-3 rounded-full shadow hover:bg-[#50543c] active:scale-[101%] font-bold"
+        >
+          <i class="fas fa-cart-plus mr-2"></i>Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+  }@else {
+  <div class="text-center py-10 text-gray-500">
+    <p-progress-spinner
+      strokeWidth="20"
+      fill="transparent"
+      animationDuration=".5s"
+      [style]="{ width: '20px', height: '20px' }"
+    />
+  </div>
+  }
+</section>

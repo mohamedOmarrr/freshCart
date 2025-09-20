@@ -1,0 +1,54 @@
+<section
+  class="container mx-auto px-4 bg-[rgba(203,218,173,0.4)] rounded-2xl py-8 shadow-inner mt-16 max-w-[90%] m-auto"
+>
+  <h1
+    class="font-goudy text-3xl md:text-4xl font-bold text-mud text-center mb-10"
+  >
+    Available Brands
+  </h1>
+
+  @if (!brands() || brands().length === 0) {
+  <div class="flex justify-center">
+    <p-progress-spinner
+      strokeWidth="8"
+      fill="transparent"
+      animationDuration=".5s"
+      [style]="{ width: '40px', height: '40px' }"
+    />
+  </div>
+  } @else {
+
+  <p-carousel
+    [value]="brands()"
+    [numVisible]="3"
+    [numScroll]="1"
+    [showIndicators]="false"
+    [circular]="true"
+    [autoplayInterval]="3000"
+    [responsiveOptions]="responsiveOptions"
+    class="mx-auto w-full custom-carousel"
+  >
+    <ng-template pTemplate="item" let-brand>
+      <div
+        class="relative rounded-2xl overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white mx-2"
+      >
+        <img
+          (click)="getName(brand.name)"
+          [src]="brand.image"
+          [alt]="brand.name"
+          class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div
+          class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end"
+        >
+          <h2
+            class="text-white text-xl font-semibold transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+          >
+            {{ brand.name }}
+          </h2>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+  }
+</section>

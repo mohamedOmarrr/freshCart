@@ -1,0 +1,12 @@
+::ng-deep .custom-carousel .p-carousel-prev,
+::ng-deep .custom-carousel .p-carousel-next {
+  font-size: 2.5rem;     
+  width: 3rem;          
+  height: 3rem;
+  color: #333;         
+}
+
+::ng-deep .custom-carousel .p-carousel-prev:hover,
+::ng-deep .custom-carousel .p-carousel-next:hover {
+  color: #000;          
+}
