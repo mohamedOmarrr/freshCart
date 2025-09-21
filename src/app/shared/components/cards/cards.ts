@@ -5,6 +5,7 @@ import { CartService } from '../../services/cart-service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
+import { LoginService } from '../../services/login-service';
 
 @Component({
   selector: 'app-cards',
@@ -16,7 +17,10 @@ export class Cards {
   products = input<ProductView[]>();
 
 
-  constructor(private router: Router, private cartService: CartService, private messageService:MessageService) {}
+  constructor(private router: Router,
+     private cartService: CartService,
+     private messageService:MessageService,
+    private log:LoginService,) {}
 
   gitId(event: MouseEvent, id?: string): void {
    
@@ -32,6 +36,17 @@ export class Cards {
   }
 
   addToCart(id?: string): void { 
+    if(this.log.isLoggedIn() === false){
+      this.router.navigate(['/log'],{
+        state:{
+          toast:{
+            severity: 'error',
+            summary:'Fail add to cart',
+            detail:'you must log in before add any product'
+          }
+        }
+      })
+    }
     if (!id) return;
 
     this.cartService.addToCart(id).subscribe({

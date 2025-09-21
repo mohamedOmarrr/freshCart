@@ -1,13 +1,14 @@
 import { Component, OnInit, signal, Signal } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
 import { ProductsService } from '../../shared/services/allprouducts';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductView } from '../../shared/interfaces/all-products';
 import { CartService } from '../../shared/services/cart-service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { LoginService } from '../../shared/services/login-service';
 
 @Component({
   selector: 'app-detailes',
@@ -19,7 +20,12 @@ export class Detailes implements OnInit {
 
   Product = signal<ProductView | null>(null)
 
-  constructor(private product:ProductsService, private route:ActivatedRoute, private cartService: CartService, private messageService:MessageService){}
+  constructor(private product:ProductsService,
+     private route:ActivatedRoute,
+    private router:Router, 
+    private cartService: CartService,
+    private messageService:MessageService,
+    private log:LoginService){}
 
 
   ngOnInit(): void {
@@ -61,6 +67,18 @@ export class Detailes implements OnInit {
 
 
   addToCart(id?: string): void { 
+    if(this.log.isLoggedIn() === false){
+      this.router.navigate(['/log'],{
+        state:{
+          toast:{
+            severity: 'error',
+            summary:'Fail add to cart',
+            detail:'you must log in before add any product'
+          }
+        }
+      })
+    }
+
     if (!id) return;
 
     this.cartService.addToCart(id).subscribe({
