@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegisterService } from '../../shared/services/register-service';
 import { authInterface } from '../../shared/interfaces/auth';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { MessageModule } from 'primeng/message';
@@ -13,7 +13,13 @@ import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-signup',
-  imports: [ReactiveFormsModule, ButtonModule, FloatLabelModule, MessageModule, ProgressSpinnerModule, ToastModule],
+  imports: [ReactiveFormsModule,
+    ButtonModule,
+    FloatLabelModule,
+    MessageModule,
+    ProgressSpinnerModule,
+    ToastModule,
+    RouterLink],
   templateUrl: './signup.html',
   styleUrl: './signup.scss'
 })
@@ -23,8 +29,23 @@ export class Signup {
   type:string = 'password'
   loading = signal<boolean>(false);
 
-  constructor(private signUpService:RegisterService, private router:Router, private messageService: MessageService){
+  constructor(private signUpService:RegisterService,
+    private router:Router,
+    private messageService: MessageService){
 
+    const nav = this.router.getCurrentNavigation()
+    const data = nav?.extras?.state as {toast?: any; source:string} | undefined
+
+    if (!data) return;
+
+    if (data.source === 'cart' && data.toast) {
+      this.messageService.add(data.toast);
+    }
+
+    
+    else if (data.source === 'guard' && data.toast) {
+      this.messageService.add(data.toast);
+    }
   }
 
   signForm = new FormGroup({
@@ -58,7 +79,7 @@ export class Signup {
           this.messageService.add({
             severity: 'success',
             summary: 'Success Process',
-            detail: 'Register completed successfully',
+            detail: 'Register completed successfully, Start login',
           });
       }
 

@@ -41,15 +41,7 @@ export class Login  {
     private log: LoginService,
     private router: Router,
     private messageService: MessageService
-  ) {
-
-    const nav = this.router.getCurrentNavigation()
-    const data = nav?.extras?.state as {toast?: any} | undefined
-
-    if(data?.toast){
-      this.messageService.add(data.toast)
-    }
-  }
+  ) {}
   
 
   loginForm = new FormGroup({

@@ -11,6 +11,17 @@ export const authGurdGuard: CanActivateFn = (route, state) => {
     return true;
   } else {
 
-    return router.parseUrl('/log');
+  router.navigate(['/sign'], {
+    state: {
+      toast: {
+        severity: 'warn',
+        summary: 'Login required',
+        detail: 'You have to log in before opening this page'
+      },
+      source: 'guard'
+    }
+  });
+
+  return false;
   }
 };

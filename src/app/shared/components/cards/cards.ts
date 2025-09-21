@@ -37,13 +37,14 @@ export class Cards {
 
   addToCart(id?: string): void { 
     if(this.log.isLoggedIn() === false){
-      this.router.navigate(['/log'],{
+      this.router.navigate(['/sign'],{
         state:{
           toast:{
-            severity: 'error',
+            severity: 'warn',
             summary:'Fail add to cart',
             detail:'you must log in before add any product'
-          }
+          },
+          source:'cart'
         }
       })
     }

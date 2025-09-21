@@ -49,17 +49,17 @@ export class Detailes implements OnInit {
 
   responsiveOptions = [
   {
-    breakpoint: '1199px',   // أكبر من 1199px
+    breakpoint: '1199px',  
     numVisible: 3,
     numScroll: 1
   },
   {
-    breakpoint: '991px',    // من 992px لحد 1199px
+    breakpoint: '991px',   
     numVisible: 2,
     numScroll: 1
   },
   {
-    breakpoint: '767px',    // أقل من 768px
+    breakpoint: '767px',   
     numVisible: 1,
     numScroll: 1
   }
@@ -68,13 +68,14 @@ export class Detailes implements OnInit {
 
   addToCart(id?: string): void { 
     if(this.log.isLoggedIn() === false){
-      this.router.navigate(['/log'],{
+      this.router.navigate(['/sign'],{
         state:{
           toast:{
             severity: 'error',
             summary:'Fail add to cart',
             detail:'you must log in before add any product'
-          }
+          },
+          source:'cart'
         }
       })
     }
