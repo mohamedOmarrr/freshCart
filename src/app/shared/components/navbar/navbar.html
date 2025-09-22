@@ -164,6 +164,7 @@
           <a
             routerLink="/cart"
             routerLinkActive="active-cart"
+            (click)="handelCart($event)"
             [routerLinkActiveOptions]="{ exact: true }"
             class="cart-link relative"
           >
