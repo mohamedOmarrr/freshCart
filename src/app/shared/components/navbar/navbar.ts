@@ -1,4 +1,4 @@
-import { Component, computed, HostListener, Inject, inject, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, Inject, inject, PLATFORM_ID, signal, ViewChild} from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LoginService } from '../../services/login-service';
 import { TieredMenuModule } from 'primeng/tieredmenu';
@@ -19,6 +19,7 @@ export class Navbar {
   public cartService = inject(CartService)
   public router = inject(Router)
 
+  @ViewChild('navBar', { static: false }) navBar!:ElementRef
   isScrolled = signal(false);
 
   cartCount = computed(() => this.cartService.cartItems())
@@ -36,7 +37,18 @@ export class Navbar {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object,private loginService:LoginService){}
 
+  @HostListener('document:click',['$event'])
+  handelClick(event:MouseEvent){
+    if(!isPlatformBrowser(this.platformId))  return
+    if (!this.mobileMenuOpen || !this.navBar) return;
+    const target = event.target as HTMLElement;
+    if(!this.navBar.nativeElement.contains(target)){
+      this.mobileMenuOpen = false
+    }
+  }
   ngAfterViewInit() {
+    
+    
     if (isPlatformBrowser(this.platformId)) {
       // أول check لو الصفحة اتعملها scroll قبل load
       this.isScrolled.set(window.scrollY > 100);
