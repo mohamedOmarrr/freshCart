@@ -29,23 +29,19 @@ export const routes: Routes = [
   },
   { path: 'category',
     loadComponent: () => import('./features/categories/categories').then(m => m.Categories),
-    title: 'Categories Page',
-    canActivate: [authGurdGuard]
+    title: 'Categories Page'
   },
   { path: 'category/:name',
     loadComponent: () => import('./features/specific-category/specific-category').then(m => m.SpecificCategory),
-    title: 'Specific Categories Page',
-    canActivate: [authGurdGuard]
+    title: 'Specific Categories Page'
   },
   { path: 'brand',
     loadComponent: () => import('./features/brands/brands').then(m => m.Brands),
-    title: 'Brands Page',
-    canActivate: [authGurdGuard]
+    title: 'Brands Page'
   },
   { path: 'brands/:name',
     loadComponent: () => import('./features/specific-brand/specific-brand').then(m => m.SpecificBrand),
-    title: 'Specific Brands Page',
-    canActivate: [authGurdGuard]
+    title: 'Specific Brands Page'
   },
   { path: 'product/:id',
     loadComponent: () => import('./features/detailes/detailes').then(m => m.Detailes),

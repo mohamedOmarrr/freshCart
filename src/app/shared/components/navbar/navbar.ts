@@ -1,5 +1,5 @@
 import { Component, computed, HostListener, Inject, inject, PLATFORM_ID, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LoginService } from '../../services/login-service';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { MenuItem } from 'primeng/api';
@@ -17,6 +17,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class Navbar {
 
   public cartService = inject(CartService)
+  public router = inject(Router)
 
   isScrolled = signal(false);
 
@@ -50,6 +51,13 @@ export class Navbar {
 
   toggleMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  handelCart(event:Event){
+    if (this.router.url === '/cart'){
+      event.preventDefault()
+      this.router.navigate(['/home'])
+    }
   }
 
 
